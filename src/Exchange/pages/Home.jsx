@@ -1,28 +1,36 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+
+import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
 import { BsBarChartFill, BsArrowLeftRight } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { AiFillAlert } from "react-icons/ai";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+
+
+
 
 export const Home = () => {
+
+  const dispatch = useDispatch();
+  
+
+
+
   return (
     <>
       <h2>Home</h2>
-
-
-
       <Container className="mb-3 mt-5 ">
 
         <div className='d-flex justify-content-center flex-column align-items-center'>
           <h3>Sm Currency Converter</h3>
         <p>Check live foreign currency exchange rates</p>
         </div>
-        
+
 
         <Row className="mb-3 mt-5">
           <Col><FaCoins/> Convert</Col>
@@ -63,6 +71,7 @@ export const Home = () => {
           </Form.Group>
         </Form>
         </div>
+
       </Container>
     </>
   )

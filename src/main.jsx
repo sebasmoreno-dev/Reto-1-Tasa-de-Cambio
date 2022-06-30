@@ -1,10 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ExchangeRateApp } from './ExchangeRateApp'
+import { Provider } from 'react-redux'
 import './index.css'
+import { store } from './store/store'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ExchangeRateApp />
+
+    <Provider store={store}>
+      <ExchangeRateApp />
+    </Provider>
+    
   </React.StrictMode>
 )
