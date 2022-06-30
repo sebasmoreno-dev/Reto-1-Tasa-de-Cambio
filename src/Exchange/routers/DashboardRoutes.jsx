@@ -8,6 +8,7 @@ import { Tools } from "../pages/Tools.jsx";
 import { Resources } from "../pages/Resources.jsx";
 import { SignIn } from "../pages/SignIn.jsx";
 import { GetTheApp } from "../pages/GetTheApp.jsx";
+import { Home } from "../pages/Home.jsx";
 
 export const DashboardRoutes = () => {
   return (
@@ -29,7 +30,7 @@ export const DashboardRoutes = () => {
 
 
 
-          <Route path="/" element={<Personal />} />
+          <Route path="/" element={<Home />} />
         </Routes>
 
       </div>

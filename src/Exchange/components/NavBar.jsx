@@ -15,16 +15,16 @@ export const NavBar = () => {
             <Link
             className="navbar-brand"
             to="/personal"
-            >
-                Personal
-            </Link>
+        >
+            Personal
+        </Link>
 
-            <Link
-                className="navbar-brand"
-                to="/business"
-            >
-                Business
-            </Link>
+        <Link
+            className="navbar-brand"
+            to="/business"
+        >
+            Business
+        </Link>
         </Nav>
 
         <Nav className="justify-content-center ">
