@@ -4,15 +4,22 @@ export const exchangeSlice = createSlice({
     name: 'exchange',
     initialState: {
         rates: [],
-        base: '',
+        base: null,
+        target: null,
+        amount: null,
+        currencies: [],
     },
     reducers: {
-        setCurrencies: (state, action) => {
-            state.rates = action.payload.rates;
+        setCurrencies: (state, { payload }) => {
+            state.rates = payload.rates;
+            state.base = payload.baseCurrency;
+            state.target = payload.targetCurrency;
+            state.currencies = payload.currencies;
         }
+
     }
 });
 
 
 // Action creators are generated for each case reducer function
-export const { setRates } = exchangeSlice.actions;
+export const { setCurrencies } = exchangeSlice.actions;

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { exchangeSlice } from './exchangeSlice';
+import { exchangeApi } from './api/exchangeApi';
 
 export const store = configureStore({
 reducer: {
-    exchange: exchangeSlice.reducer,
+    [exchangeApi.reducerPath]: exchangeApi.reducer,
   },
-
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(exchangeApi.middleware),
 });

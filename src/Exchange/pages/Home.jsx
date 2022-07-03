@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useGetCurrenciesQuery } from '../../store/api/exchangeApi';
+import { useDispatch } from 'react-redux';
+import { useForm } from '../../hooks/useForm';
 
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -14,11 +15,25 @@ import { AiFillAlert } from "react-icons/ai";
 
 
 
+
 export const Home = () => {
 
   const dispatch = useDispatch();
-  
 
+  const { base, date, amount, target, currency, onInputChange } = useForm({
+    base: '',
+    date: '',
+    amount: '',
+    target: '',
+    currency: '',
+  });
+
+  const getCurrienciesData = (e) => {
+    e.preventDefault();
+    dispatch(useGetCurrenciesQuery());
+  }
+  
+console.log(useGetCurrenciesQuery());
 
 
   return (
@@ -53,15 +68,21 @@ export const Home = () => {
 
               <Col>
                 <p>From</p>
-                <Form.Control type="email" placeholder="USD - USD Dollar" />
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                {/* <Form.Control type="email" placeholder="USD - USD Dollar" />
                 <Form.Text className="text-muted">
-                </Form.Text>
+                </Form.Text> */}
               </Col>
 
               <BsArrowLeftRight />
 
               <Col>
-                <p>From</p>
+                <p>To</p>
                 <Form.Control type="text" placeholder="EUR - Euro" />
                 <Form.Text className="text-muted">
                 </Form.Text>
