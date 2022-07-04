@@ -12,17 +12,19 @@ import { MdSend } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { AiFillAlert } from "react-icons/ai";
 import { setCurrencies } from '../../store/exchangeSlice';
-
-
+import { useEffect, useState } from 'react';
 
 export const Home = () => {
+
+  const [currenciesListArray, setcurrenciesListArray] = useState([]);
 
 
   const currencies = useSelector((state) => state.exchange.base);
   const dispatch = useDispatch();
 
-  const { data } = useGetCurrencyBaseQuery();
-  console.log(data);
+  /* const { data } = useGetCurrencyBaseQuery(
+  );
+  console.log(data); */
 
   const { data: currenciesList } = useGetCurrenciesQuery();
   console.log(currenciesList);
@@ -39,8 +41,10 @@ export const Home = () => {
     dispatch(setCurrencies(currencies));
   }
 
-
-
+  useEffect(() => {
+  setcurrenciesListArray(currenciesList && Object.keys(currenciesList));
+  }, [currenciesList]);
+  
 
 
   return (
@@ -65,17 +69,15 @@ export const Home = () => {
 
         <Form>
           <Form.Group className="mb-3, mt-5" >
-            <Form.Label>Base Currency</Form.Label>
-            <p>{/* {data.base} */}</p>
-                <p>Amount</p>
-                <Form.Control type="number" placeholder="$1.00" />
+            <Form.Label>Amount</Form.Label>
+            <Form.Control type="number" placeholder="$1.00" />
           </Form.Group>
-
           <Form.Group className="mb-3 , mt-4" >
             <Form.Label>From</Form.Label>
             <Form.Control as="select" onChange={handleChange2}>
-              {data.map((currency) => (
-                <option key={currency.currencyCode} value={currency.currencyCode}>{currency.currencyCode}</option>
+              /* A ternary operator. It is a shorthand for an if/else statement. */
+              {currenciesListArray?.map((currency, id) => (
+                <option key={id} value={id}>{currency} {currenciesList[currency]}</option>
               ))}
             </Form.Control>
           </Form.Group>
@@ -85,10 +87,17 @@ export const Home = () => {
           <Form.Group className="mb-3, mt-4" >
             <Form.Label>To</Form.Label>
             <Form.Control as="select" onChange={handleChange2}>
-              {/* {currenciesList.map(currency => (
-                <option key={currency.code} value={currency.code}>{currency.code}</option>
-              ))} */}
+              <option
+                onChange={handleChange2}
+              >
+                Select Currency
+              </option>
             </Form.Control>
+          </Form.Group>
+
+          {/* Crear boton que hace la comversion de las divisas */}
+          <Form.Group className="mb-3, mt-4" >
+            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Convert</button>
           </Form.Group>
 
         </Form>
