@@ -15,6 +15,7 @@ export const exchangeSlice = createSlice({
             state.base = payload.baseCurrency;
             state.target = payload.targetCurrency;
             state.currencies = payload.currencies;
+            state.code = payload.code;
         }
 
     }

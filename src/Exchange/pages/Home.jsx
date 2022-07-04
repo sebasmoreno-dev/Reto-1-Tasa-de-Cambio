@@ -1,5 +1,5 @@
-import { useGetCurrenciesQuery } from '../../store/api/exchangeApi';
-import { useDispatch } from 'react-redux';
+import { useGetCurrenciesQuery, useGetCurrencyBaseQuery } from '../../store/api/exchangeApi';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
 import Form from 'react-bootstrap/Form';
@@ -11,29 +11,42 @@ import { BsBarChartFill, BsArrowLeftRight } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
 import { FaCoins } from "react-icons/fa";
 import { AiFillAlert } from "react-icons/ai";
-
-
+import { setCurrencies } from '../../store/exchangeSlice';
 
 
 
 export const Home = () => {
 
   const dispatch = useDispatch();
+  /* const currencies = useSelector(state => state.currencies); */
 
-  const { base, date, amount, target, currency, onInputChange } = useForm({
-    base: '',
-    date: '',
-    amount: '',
-    target: '',
-    currency: '',
-  });
+  const { data } = useGetCurrencyBaseQuery(
+    {
+      base: 'USD',
+      target: 'USD',
+      amount: 1,
+      code: 'USD',
+    }
+  );
+  console.log(data);
 
-  const getCurrienciesData = (e) => {
+  const { data: currenciesList } = useGetCurrenciesQuery();
+  console.log(currenciesList);
+
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(useGetCurrenciesQuery());
+    dispatch(setCurrencies(Form));
   }
-  
-console.log(useGetCurrenciesQuery());
+
+  const handleChange2 = (e) => {
+    handleChange2(e);
+    dispatch(setCurrencies(Form));
+  }
+
+
+
 
 
   return (
@@ -68,24 +81,24 @@ console.log(useGetCurrenciesQuery());
 
               <Col>
                 <p>From</p>
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                  </select>
-                {/* <Form.Control type="email" placeholder="USD - USD Dollar" />
-                <Form.Text className="text-muted">
-                </Form.Text> */}
+                  <Form.Select
+                    size="lg"
+                  >
+                      {/* {
+                        data.map(item => (
+                        <option key={item.code} value={item.code}>{item.base}</option>
+                        ))
+                      } */}
+                  </Form.Select>
               </Col>
 
               <BsArrowLeftRight />
 
               <Col>
                 <p>To</p>
-                <Form.Control type="text" placeholder="EUR - Euro" />
-                <Form.Text className="text-muted">
-                </Form.Text>
+                <Form.Select size="lg">
+                    <option>Large select</option>
+                  </Form.Select>
               </Col>
 
           </Row>

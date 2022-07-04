@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 /* API_KEY = a29dd408540f4f4bab229095d9a4bd5d; */
 
 export const exchangeApi = createApi({
-reducerPath: 'curriencies',
+reducerPath: 'currencies',
 
 baseQuery: fetchBaseQuery({
   baseUrl: 'https://openexchangerates.org/api/',
@@ -16,20 +16,20 @@ endpoints: (builder) => ({
   }),
 
   getCurrencyBase: builder.query({
-    query: ( base ) => `/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d&base=${base}`,
+    query: () => '/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d&%26base=USD',
   }),
 
   getLatest: builder.query({
     query: () => `/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d`
   }),
 
-  getHistorical: builder.query({
+  /* getHistorical: builder.query({
     query: ( base, date ) => `/historical/${date}.json?app_id=a29dd408540f4f4bab229095d9a4bd5d&base=${base}`,
   }),
 
   getConvertCurrencies: builder.query({
     query: ( base, target, amount ) => `/convert?app_id=a29dd408540f4f4bab229095d9a4bd5d&base=${base}&target=${target}&amount=${amount}`,
-  })
+  }) */
 
   }),
 });
