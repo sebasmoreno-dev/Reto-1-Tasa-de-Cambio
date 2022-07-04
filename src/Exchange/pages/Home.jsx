@@ -1,6 +1,6 @@
 import { useGetCurrenciesQuery, useGetCurrencyBaseQuery } from '../../store/api/exchangeApi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from '../../hooks/useForm';
+/* import { useForm } from '../../hooks/useForm'; */
 
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
@@ -17,17 +17,11 @@ import { setCurrencies } from '../../store/exchangeSlice';
 
 export const Home = () => {
 
-  const dispatch = useDispatch();
-  /* const currencies = useSelector(state => state.currencies); */
 
-  const { data } = useGetCurrencyBaseQuery(
-    {
-      base: 'USD',
-      target: 'USD',
-      amount: 1,
-      code: 'USD',
-    }
-  );
+  const currencies = useSelector((state) => state.exchange.base);
+  const dispatch = useDispatch();
+
+  const { data } = useGetCurrencyBaseQuery();
   console.log(data);
 
   const { data: currenciesList } = useGetCurrenciesQuery();
@@ -37,12 +31,12 @@ export const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setCurrencies(Form));
+    dispatch(setCurrencies(currencies));
   }
 
   const handleChange2 = (e) => {
     handleChange2(e);
-    dispatch(setCurrencies(Form));
+    dispatch(setCurrencies(currencies));
   }
 
 
@@ -70,39 +64,33 @@ export const Home = () => {
         <div>
 
         <Form>
-          <Form.Group className="mb-3">
-            <Row className="mb-3 mt-5 align-items-center">
-              <Col>
+          <Form.Group className="mb-3, mt-5" >
+            <Form.Label>Base Currency</Form.Label>
+            <p>{/* {data.base} */}</p>
                 <p>Amount</p>
                 <Form.Control type="number" placeholder="$1.00" />
-                <Form.Text className="text-muted">
-                </Form.Text>
-              </Col>
-
-              <Col>
-                <p>From</p>
-                  <Form.Select
-                    size="lg"
-                  >
-                      {/* {
-                        data.map(item => (
-                        <option key={item.code} value={item.code}>{item.base}</option>
-                        ))
-                      } */}
-                  </Form.Select>
-              </Col>
-
-              <BsArrowLeftRight />
-
-              <Col>
-                <p>To</p>
-                <Form.Select size="lg">
-                    <option>Large select</option>
-                  </Form.Select>
-              </Col>
-
-          </Row>
           </Form.Group>
+
+          <Form.Group className="mb-3 , mt-4" >
+            <Form.Label>From</Form.Label>
+            <Form.Control as="select" onChange={handleChange2}>
+              {data.map((currency) => (
+                <option key={currency.currencyCode} value={currency.currencyCode}>{currency.currencyCode}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+
+          <BsArrowLeftRight className='mt-2'/>
+
+          <Form.Group className="mb-3, mt-4" >
+            <Form.Label>To</Form.Label>
+            <Form.Control as="select" onChange={handleChange2}>
+              {/* {currenciesList.map(currency => (
+                <option key={currency.code} value={currency.code}>{currency.code}</option>
+              ))} */}
+            </Form.Control>
+          </Form.Group>
+
         </Form>
         </div>
 

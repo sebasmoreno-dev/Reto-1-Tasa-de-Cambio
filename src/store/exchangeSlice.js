@@ -1,24 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const exchangeSlice = createSlice({
-    name: 'exchange',
-    initialState: {
-        rates: [],
-        base: null,
-        target: null,
-        amount: null,
-        currencies: [],
-    },
-    reducers: {
-        setCurrencies: (state, { payload }) => {
-            state.rates = payload.rates;
-            state.base = payload.baseCurrency;
-            state.target = payload.targetCurrency;
-            state.currencies = payload.currencies;
-            state.code = payload.code;
-        }
+	name: 'exchange',
+	initialState: {
 
-    }
+		base: [
+			{
+				currency: 'USD',
+				currencyCode: 'USD',
+				currencyName: 'United States Dollar',
+				currencySymbol: '$',
+				flag: 'https://restcountries.eu/data/usa.svg',
+			}
+		],
+	},
+	reducers: {
+		setCurrencies: (state, action) => {
+			state.base = action.payload;
+		},
+	}
 });
 
 
