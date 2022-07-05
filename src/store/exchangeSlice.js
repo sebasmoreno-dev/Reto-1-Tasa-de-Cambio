@@ -4,15 +4,7 @@ export const exchangeSlice = createSlice({
 	name: 'exchange',
 	initialState: {
 
-		base: [
-			{
-				currency: 'USD',
-				currencyCode: 'USD',
-				currencyName: 'United States Dollar',
-				currencySymbol: '$',
-				flag: 'https://restcountries.eu/data/usa.svg',
-			}
-		],
+		base: [],
 	},
 	reducers: {
 		setCurrencies: (state, action) => {

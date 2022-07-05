@@ -14,9 +14,9 @@ export const NavBar = () => {
         <Nav>
             <Link
             className="navbar-brand"
-            to="/personal"
+            to="/home"
         >
-            Personal
+            Home
         </Link>
 
         <Link

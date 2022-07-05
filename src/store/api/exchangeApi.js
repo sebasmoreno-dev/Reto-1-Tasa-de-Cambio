@@ -19,15 +19,7 @@ endpoints: (builder) => ({
     query: () => '/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d&%26base=USD',
   }),
 
-  getLatest: builder.query({
-    query: () => `/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d`
-  }),
-
-
   }),
 });
 
-export const { useGetCurrenciesQuery, useGetCurrencyBaseQuery, useGetLatestQuery } = exchangeApi;
-
-/* $ . get ( 'https://openexchangerates.org/api/latest.json' ,  { app_id : 'YOUR_APP_APP_ID' , base : 'UGX' } , function ( data ) { console . log ( "1 chelín ugandés es igual a" + data . tipos de cambio .JPY + " Yen japonés" ) ; } ) ; */
-//
+export const { useGetCurrenciesQuery, useGetCurrencyBaseQuery } = exchangeApi;

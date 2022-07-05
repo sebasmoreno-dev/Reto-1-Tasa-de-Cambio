@@ -1,50 +1,47 @@
 import { useGetCurrenciesQuery, useGetCurrencyBaseQuery } from '../../store/api/exchangeApi';
 import { useDispatch, useSelector } from 'react-redux';
-/* import { useForm } from '../../hooks/useForm'; */
+import { useForm } from '../../hooks/useForm';
 
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
-import { BsBarChartFill, BsArrowLeftRight } from "react-icons/bs";
-import { MdSend } from "react-icons/md";
-import { FaCoins } from "react-icons/fa";
-import { AiFillAlert } from "react-icons/ai";
 import { setCurrencies } from '../../store/exchangeSlice';
 import { useEffect, useState } from 'react';
+import { RowItems } from '../components/RowItems';
+
 
 export const Home = () => {
 
   const [currenciesListArray, setcurrenciesListArray] = useState([]);
 
-
   const currencies = useSelector((state) => state.exchange.base);
   const dispatch = useDispatch();
 
-  /* const { data } = useGetCurrencyBaseQuery(
-  );
-  console.log(data); */
 
   const { data: currenciesList } = useGetCurrenciesQuery();
-  console.log(currenciesList);
 
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(setCurrencies(currencies));
-  }
-
-  const handleChange2 = (e) => {
-    handleChange2(e);
-    dispatch(setCurrencies(currencies));
-  }
 
   useEffect(() => {
   setcurrenciesListArray(currenciesList && Object.keys(currenciesList));
   }, [currenciesList]);
   
+
+
+  const { from, to,  onInputChange  } = useForm({
+    from: 'USD - United States Dollar',
+    to: '',
+    value: '',
+  });
+
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setCurrencies(currencies));
+  }
+
+  //funcion que toma los valores de  Amount, fromy to y los envia a la api
+  
+
 
 
   return (
@@ -57,48 +54,83 @@ export const Home = () => {
         <p>Check live foreign currency exchange rates</p>
         </div>
 
-
-        <Row className="mb-3 mt-5">
-          <Col><FaCoins/> Convert</Col>
-          <Col><MdSend/> Send</Col>
-          <Col><BsBarChartFill/> Charts</Col>
-          <Col><AiFillAlert/> Alerts</Col>
-        </Row>
+        <RowItems />
 
         <div>
 
-        <Form>
+        <Form onSubmit={ onSubmit }>
+
           <Form.Group className="mb-3, mt-5" >
             <Form.Label>Amount</Form.Label>
-            <Form.Control type="number" placeholder="$1.00" />
-          </Form.Group>
-          <Form.Group className="mb-3 , mt-4" >
-            <Form.Label>From</Form.Label>
-            <Form.Control as="select" onChange={handleChange2}>
-              /* A ternary operator. It is a shorthand for an if/else statement. */
-              {currenciesListArray?.map((currency, id) => (
-                <option key={id} value={id}>{currency} {currenciesList[currency]}</option>
-              ))}
-            </Form.Control>
+            <Form.Control
+              as="input"
+              label="Amount"
+              type="number"
+              placeholder="$1.00"
+              name="value"
+              value={1}
+              onChange={onInputChange}
+              />
           </Form.Group>
 
-          <BsArrowLeftRight className='mt-2'/>
+          <Form.Group className="mb-3 , mt-4" >
+            <Form.Label>From</Form.Label>
+            <Form.Control
+              as="select"
+              label="from"
+              placeholder='USD - United States Dollar'
+              type="text"
+              name="from"
+              value={from}
+              onChange={onInputChange}
+            >
+              {
+                currenciesListArray?.map((currency, id) => (
+                <option
+                  key={id}
+                  value={id}
+                >
+                  {currency} - {currenciesList[currency]}
+                </option>
+                ))
+              }
+            </Form.Control>
+            <Form.Text className="text-muted">
+                Select the base currency like a USD - United States Dollar
+              </Form.Text>
+          </Form.Group>
 
           <Form.Group className="mb-3, mt-4" >
             <Form.Label>To</Form.Label>
-            <Form.Control as="select" onChange={handleChange2}>
-              <option
-                onChange={handleChange2}
-              >
-                Select Currency
-              </option>
+            <Form.Control
+              as="select"
+              label="to"
+              placeholder='Other currencies'
+              type="text"
+              name="to"
+              value={to}
+              onChange={onInputChange}
+            >
+              {
+                currenciesListArray?.map((currency, id) => (
+                <option
+                  key={id}
+                  value={id}
+                >
+                  {currency} - {currenciesList[currency]}
+                </option>
+                ))
+              }
             </Form.Control>
           </Form.Group>
 
-          {/* Crear boton que hace la comversion de las divisas */}
-          <Form.Group className="mb-3, mt-4" >
-            <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Convert</button>
-          </Form.Group>
+            <button
+              type="submit"
+              className="btn btn-primary mb-3 mt-4"
+              //onClick={}
+            >
+              Convert
+            </button>
 
         </Form>
         </div>

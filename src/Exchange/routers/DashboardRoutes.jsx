@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 
 import { NavBar } from "../components/NavBar.jsx";
-import { Personal } from "./../pages/Personal.jsx"
 import { Business } from "./../pages/Business.jsx"
 import { SendMoney } from "../pages/SendMoney.jsx";
 import { Tools } from "../pages/Tools.jsx";
@@ -17,7 +16,7 @@ export const DashboardRoutes = () => {
 
       <div className="container mt-1">
         <Routes>
-          <Route path="personal" element={<Personal />} />
+          <Route path="home" element={<Home />} />
           <Route path="business" element={<Business />} />
 
 
