@@ -4,15 +4,26 @@ export const exchangeSlice = createSlice({
 	name: 'exchange',
 	initialState: {
 
-		base: [],
+		base: {
+			to: 'COP - Colombian Peso',
+			from: 'USD - United States Dollar',
+			value: 1,
+			status: 'not-rated',
+		},
 	},
 	reducers: {
-		setCurrencies: (state, action) => {
-			state.base = action.payload;
-		},
+
+		setRatesCurrencies: (state, action) => {
+			state.to = action.payload.to;
+			state.from = action.payload.from;
+			state.value = action.payload.value;
+			state.status = 'rated';
+		}
+
+
 	}
 });
 
 
 // Action creators are generated for each case reducer function
-export const { setCurrencies } = exchangeSlice.actions;
+export const { setRatesCurrencies } = exchangeSlice.actions;

@@ -10,5 +10,6 @@ reducer: {
 
   [exchangeApi.reducerPath]: exchangeApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(exchangeApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(exchangeApi.middleware),
 });

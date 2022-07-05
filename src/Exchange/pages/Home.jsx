@@ -1,25 +1,34 @@
-import { useGetCurrenciesQuery, useGetCurrencyBaseQuery } from '../../store/api/exchangeApi';
+import { useEffect, useState } from 'react';
+
+import { useGetCurrenciesQuery } from '../../store/api/exchangeApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
-
-import { setCurrencies } from '../../store/exchangeSlice';
-import { useEffect, useState } from 'react';
 import { RowItems } from '../components/RowItems';
 
+/* import { getRateFromUSDToCOP } from '../../store/api/exchangeApi'; */
+/* import { getData } from '../../store/api/getData'; */
+import { GetRates } from '../components/GetRates.jsx';
+import { checkingRatesCurrencies } from '../../store/thunk';
 
-export const Home = () => {
+
+export const Home =  () => {
+
 
   const [currenciesListArray, setcurrenciesListArray] = useState([]);
 
-  const currencies = useSelector((state) => state.exchange.base);
+  
+  const { base } = useSelector(state => state.exchange);
   const dispatch = useDispatch();
 
 
   const { data: currenciesList } = useGetCurrenciesQuery();
 
+  //consumir getData
+  /* const { ratesCurrencies } = await getData();
+  console.log(ratesCurrencies, 'ratesCurrencies USD  to COP'); */
 
   useEffect(() => {
   setcurrenciesListArray(currenciesList && Object.keys(currenciesList));
@@ -29,19 +38,15 @@ export const Home = () => {
 
   const { from, to,  onInputChange  } = useForm({
     from: 'USD - United States Dollar',
-    to: '',
-    value: '',
+    to: 'COP - Colombian Peso',
+    value: '1',
   });
 
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(setCurrencies(currencies));
+    dispatch(checkingRatesCurrencies());
   }
-
-  //funcion que toma los valores de  Amount, fromy to y los envia a la api
-  
-
 
 
   return (
@@ -96,8 +101,8 @@ export const Home = () => {
               }
             </Form.Control>
             <Form.Text className="text-muted">
-                Select the base currency like a USD - United States Dollar
-              </Form.Text>
+              Select the base currency like a USD - United States Dollar
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3, mt-4" >
@@ -122,16 +127,20 @@ export const Home = () => {
                 ))
               }
             </Form.Control>
+            <Form.Text className="text-muted">
+              Select the currency like a COP - Colombian Peso
+            </Form.Text>
           </Form.Group>
 
             <button
               type="submit"
               className="btn btn-primary mb-3 mt-4"
-              //onClick={}
             >
               Convert
             </button>
 
+
+            <GetRates />
         </Form>
         </div>
 
