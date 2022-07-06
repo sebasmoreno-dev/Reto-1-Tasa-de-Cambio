@@ -3,13 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 export const exchangeSlice = createSlice({
 	name: 'exchange',
 	initialState: {
-
-		base: {
+		
 			to: 'COP - Colombian Peso',
 			from: 'USD - United States Dollar',
 			value: 1,
 			status: 'not-rated',
-		},
+
 	},
 	reducers: {
 

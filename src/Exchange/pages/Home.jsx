@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { useGetCurrenciesQuery } from '../../store/api/exchangeApi';
-import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '../../hooks/useForm';
 
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import { RowItems } from '../components/RowItems';
 
-/* import { getRateFromUSDToCOP } from '../../store/api/exchangeApi'; */
-/* import { getData } from '../../store/api/getData'; */
+
 import { GetRates } from '../components/GetRates.jsx';
-import { checkingRatesCurrencies } from '../../store/thunk';
+
 
 
 export const Home =  () => {
@@ -19,16 +17,9 @@ export const Home =  () => {
 
   const [currenciesListArray, setcurrenciesListArray] = useState([]);
 
-  
-  const { base } = useSelector(state => state.exchange);
-  const dispatch = useDispatch();
 
 
   const { data: currenciesList } = useGetCurrenciesQuery();
-
-  //consumir getData
-  /* const { ratesCurrencies } = await getData();
-  console.log(ratesCurrencies, 'ratesCurrencies USD  to COP'); */
 
   useEffect(() => {
   setcurrenciesListArray(currenciesList && Object.keys(currenciesList));
@@ -36,17 +27,23 @@ export const Home =  () => {
   
 
 
-  const { from, to,  onInputChange  } = useForm({
-    from: 'USD - United States Dollar',
-    to: 'COP - Colombian Peso',
+  const { from, to, value, status, onInputChange  } = useForm({
+    from: 'USD',
+    to: 'AED',
     value: '1',
+    status: '',
   });
 
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    dispatch(checkingRatesCurrencies());
-  }
+console.log(from, to, value, status);
+
+const [price, setPrice] = useState();
+
+const convertCurrency = () => {
+  fetch(`https://openexchangerates.org/api/latest.json?app_id=a29dd408540f4f4bab229095d9a4bd5d&symbols=${to}`)
+      .then(response => response.json())
+      .then(data => setPrice(data && data.rates[to].toFixed(2)));
+}
 
 
   return (
@@ -61,9 +58,7 @@ export const Home =  () => {
 
         <RowItems />
 
-        <div>
-
-        <Form onSubmit={ onSubmit }>
+        <Form >
 
           <Form.Group className="mb-3, mt-5" >
             <Form.Label>Amount</Form.Label>
@@ -73,7 +68,7 @@ export const Home =  () => {
               type="number"
               placeholder="$1.00"
               name="value"
-              value={1}
+              value={value}
               onChange={onInputChange}
               />
           </Form.Group>
@@ -89,16 +84,11 @@ export const Home =  () => {
               value={from}
               onChange={onInputChange}
             >
-              {
-                currenciesListArray?.map((currency, id) => (
-                <option
-                  key={id}
-                  value={id}
-                >
-                  {currency} - {currenciesList[currency]}
+              <option
+                value="USD"
+              >
+                  USD - United States Dollar
                 </option>
-                ))
-              }
             </Form.Control>
             <Form.Text className="text-muted">
               Select the base currency like a USD - United States Dollar
@@ -120,7 +110,7 @@ export const Home =  () => {
                 currenciesListArray?.map((currency, id) => (
                 <option
                   key={id}
-                  value={id}
+                  value={currency}
                 >
                   {currency} - {currenciesList[currency]}
                 </option>
@@ -128,21 +118,27 @@ export const Home =  () => {
               }
             </Form.Control>
             <Form.Text className="text-muted">
-              Select the currency like a COP - Colombian Peso
+              Select the currency you want to convert
             </Form.Text>
           </Form.Group>
 
             <button
-              type="submit"
+              type='button'
               className="btn btn-primary mb-3 mt-4"
+              onClick={convertCurrency}
             >
               Convert
             </button>
 
+            
+            <GetRates
+            to={to}
+            price={price}
+            value={value}
+            />
 
-            <GetRates />
         </Form>
-        </div>
+
 
       </Container>
     </>
